@@ -17,31 +17,63 @@
       <p><a class="btn btn-primary btn-lg" href="/scrape" role="button">Scrape New Data</a></p>
     </div>
 
-    <!-- Phone Listings -->
-    <div class="row" id="craiglist-listings">
+
+    <div class="row">
       <div class="col-md-12">
-        <h4 class="heading">{{mars['Title']}}</h4>
+        <h4 class="heading"> {{mars.Title}}</h4>
 
-        <small>{{mars['Paragraph']}}</small>
-     </div>
+        <small>{{mars.Paragraph}}</small>
+      </div>
 
-     <div class="col-md-12">
-        <h4 class="heading"></h4> 
-        <img src ={{mars ['Feature Image']}} alt='Image of mars up close'>
-     </div>
-      
-      <div>
-        <div class= "table">
-          <table id= 'tablepress-p-mars-no-2' class='tablepress tablepress-id-p-mars'> </table>
-          <h4> {{mars['Mars Info']}}     </h4>
-          
+      <div class="col-md-12">
+        <h4 class="heading"></h4>
+        <img src="{{mars.Feature}}" alt='Image of mars up close'>
 
-      
+      </div>
 
-      
+      <div class="container">
+        <div class="col-md-6">
+          <h4>Mars Facts</h4>
+          <table class="table">
+            <p>{{mars.Table|safe}}</p>
+
+          </table>
+
+        </div>
+      </div>
+
+
+      <div class="col-md-6">
+        <h4 class="heading"></h4>
+        <h4>Cerberus Hemisphere Enhanced</h4>
+        <img src="{{mars.Cerb}}" alt='Mars Cerb' width=500 height=500>
+
+      </div>
+
+      <div class="col-md-6">
+        <h4 class="heading"></h4>
+        <h4>Schiaparelli Hemisphere Enhanced</h4>
+        <img src="{{mars.Schi}}" alt='Mars Schi' width=500 height=500>
+
+      </div>
+
+
+      <div class="col-md-6">
+        <h4 class="heading"></h4>
+        <h4>Syrtis Major Hemisphere Enhanced</h4>
+        <img src="{{mars.Syrt}}" alt='Mars Syrt' width=500 height=500>
+
+      </div>
+
+
+      <div class="col-md-6">
+        <h4 class="heading"></h4>
+        <h4>Valles Marineris Hemisphere Enhanced</h4>
+        <img src="{{mars.Vall}}" alt='Mars Vall' width=500 height=500>
+
+      </div>
+
     </div>
-
-  </div>
 </body>
 
 </html>

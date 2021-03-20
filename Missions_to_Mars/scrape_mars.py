@@ -1,6 +1,7 @@
 from splinter import Browser
 from bs4 import BeautifulSoup
 from webdriver_manager.chrome import ChromeDriverManager
+import pandas as pd
 
 
 def init_browser():
@@ -30,23 +31,56 @@ def scrape():
 
     html = browser.html
     soup = BeautifulSoup(html, 'html.parser')
-    step_one=soup.find('img' , class_='headerimage fade-in')['src']
-    feature_image_url= 'https://data-class-jpl-space.s3.amazonaws.com/JPL_Space/'+step_one
+    step_one = soup.find('img', class_='headerimage fade-in')['src']
+    feature_image_url = 'https://data-class-jpl-space.s3.amazonaws.com/JPL_Space/'+step_one
 
-
-    url= 'https://space-facts.com/mars/'
+    url = 'https://space-facts.com/mars/'
     browser.visit(url)
-    
+
+    marsfacts = pd.read_html(url)
+    marsfacts_df = marsfacts[1]
+    renamed_marsfacts_df = marsfacts_df.rename(columns={0:"Facts", 1:"Value"})
+    renamed_mars_index=renamed_marsfacts_df.set_index('Mars - Earth Comparison')
+    marsfacts_html=renamed_mars_index.to_html()
+
+
+    url= 'https://astrogeology.usgs.gov/search/map/Mars/Viking/cerberus_enhanced'
+    browser.visit(url)
+
     html = browser.html
     soup = BeautifulSoup(html, 'html.parser')
-    step_graph= soup.find('table', class_='tablepress tablepress-id-p-mars')
+    step_cerb= soup.find('div' , class_='downloads').find('a')['href']
+
+    url = 'https://astrogeology.usgs.gov/search/map/Mars/Viking/schiaparelli_enhanced'
+    browser.visit(url)  
+
+    html = browser.html
+    soup = BeautifulSoup(html, 'html.parser')
+    step_schi= soup.find('div' , class_='downloads').find('a')['href']
+
+    url = 'https://astrogeology.usgs.gov/search/map/Mars/Viking/syrtis_major_enhanced'
+    browser.visit(url)
+
+    html = browser.html
+    soup = BeautifulSoup(html, 'html.parser')
+    step_syrt= soup.find('div' , class_='downloads').find('a')['href']
+
+    url = 'https://astrogeology.usgs.gov/search/map/Mars/Viking/valles_marineris_enhanced'
+    browser.visit(url)
+
+    html = browser.html
+    soup = BeautifulSoup(html, 'html.parser')
+    step_vall= soup.find('div' , class_='downloads').find('a')['href']
 
 
     mars_dictionary["Title"] = title
     mars_dictionary["Paragraph"] = paragraph
-    mars_dictionary["Feature Image"] = feature_image_url
-    mars_dictionary["Mars Info"] = step_graph
-
+    mars_dictionary["Feature"] = feature_image_url
+    mars_dictionary["Table"] = marsfacts_html
+    mars_dictionary["Cerb"] = step_cerb
+    mars_dictionary["Schi"] = step_schi
+    mars_dictionary["Syrt"] = step_syrt
+    mars_dictionary["Vall"] = step_vall
 
     # Quit the browser
     browser.quit()
